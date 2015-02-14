@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r'^$', 'private.views.home'),
-    url(r'^add-item', 'private.views.add_item'),
+    url(r'^add-item$', 'private.views.add_item'),
     url(r'^delete-item/(?P<id>\d+)$', 'private.views.delete_item'),
     # Route for built-in authentication with our own custom login page
     url(r'^login$', 'django.contrib.auth.views.login', {'template_name':'private/login.html'}),
