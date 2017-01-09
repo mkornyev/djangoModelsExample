@@ -12,6 +12,7 @@ from django.contrib.auth import login, authenticate
 from django.db import transaction
 
 from private.models import *
+from time import sleep
 
 
 @login_required
@@ -34,7 +35,7 @@ def add_item(request):
     	new_item.save()
 
     items = Item.objects.filter(user=request.user)
-    context = {'items' : items, 'errors' : errors}
+    context = { 'items' : items, 'errors' : errors }
     return render(request, 'private/index.html', context)
     
 
@@ -42,6 +43,12 @@ def add_item(request):
 @transaction.atomic
 def delete_item(request, id):
     errors = []
+
+    if request.method == 'GET':
+        errors.append('Do not use get to delete')
+        items = Item.objects.filter(user=request.user)
+        context = { 'errors': errors, 'items': items }
+        return render(request, 'private/index.html', context)
 
     # Deletes item if the logged-in user has an item matching the id
     try:
@@ -51,9 +58,8 @@ def delete_item(request, id):
         errors.append('The item did not exist in your todo list.')
 
     items = Item.objects.filter(user=request.user)
-    context = {'items' : items, 'errors' : errors}
+    context = { 'errors': errors, 'items': items }
     return render(request, 'private/index.html', context)
-
 
 @transaction.atomic
 def register(request):
@@ -66,7 +72,7 @@ def register(request):
     errors = []
     context['errors'] = errors
 
-    # Checks the validity of the form data
+    # Check the validity of the form data
     if not 'username' in request.POST or not request.POST['username']:
     	errors.append('Username is required.')
     else:
@@ -79,25 +85,31 @@ def register(request):
     if not 'password2' in request.POST or not request.POST['password2']:
         errors.append('Confirm password is required.')
 
-    if 'password1' in request.POST and 'password2' in request.POST \
-            and request.POST['password1'] and request.POST['password2'] \
-            and request.POST['password1'] != request.POST['password2']:
+    if errors:
+        # Required fields are missing.  Display errors, now.
+        return render(request, 'private/register.html', context)
+
+    if request.POST['password1'] != request.POST['password2']:
         errors.append('Passwords did not match.')
 
-    if len(User.objects.filter(username = request.POST['username'])) > 0:
+    if User.objects.select_for_update().filter(username = request.POST['username']).exists():
         errors.append('Username is already taken.')
 
     if errors:
+        # Required fields are missing.  Display errors, now.
         return render(request, 'private/register.html', context)
 
+    sleep(1)
+
     # Creates the new user from the valid form data
-    new_user = User.objects.create_user(username=request.POST['username'], \
+    new_user = User.objects.create_user(username=request.POST['username'],
                                         password=request.POST['password1'])
     new_user.save()
 
     # Logs in the new user and redirects to his/her todo list
-    new_user = authenticate(username=request.POST['username'], \
+    new_user = authenticate(username=request.POST['username'],
                             password=request.POST['password1'])
+    
     login(request, new_user)
     return redirect('/private/')
     

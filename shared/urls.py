@@ -1,8 +1,9 @@
 from django.conf.urls import patterns, include, url
+from shared import views
 
-urlpatterns = patterns('',
-    url(r'^$', 'shared.views.home'),
-    url(r'^add-item', 'shared.views.add_item'),
+urlpatterns = [
+    url(r'^$', views.home),
+    url(r'^add-item', views.add_item),
     # Parses number from URL and uses it as the item_id argument to the action
-    url(r'^delete-item/(?P<item_id>\d+)$', 'shared.views.delete_item'),
-)
+    url(r'^delete-item/(?P<item_id>\d+)$', views.delete_item),
+]

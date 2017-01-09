@@ -16,7 +16,12 @@
         Current todo list:
         <ol>
             {% for item in items %}
-                <li> <a href="/private/delete-item/{{item.id}}">X</a> {{item}}
+                <li>
+                    <form action="/private/delete-item/{{item.id}}" method="post">
+                        <input type="submit" value="X"> {{item}}
+                        {% csrf_token %}
+                    </form>
+                </li>
             {% endfor %}
         </ol>
     </p>
