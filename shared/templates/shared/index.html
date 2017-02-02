@@ -1,36 +1,42 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>A Simple Shared Todo List</title>
+    <link rel="stylesheet" href="/static/shared/todolist.css">
+    <title>Shared To Do List #1</title>
 </head>
 
 <body>
-    {% for error in errors %}
-        <p style="color:red">
-            {{error}}
-        </p>
+
+<div class="title">Shared To Do List #1</div>
+
+{% for error in errors %}
+    <div class="error">
+        {{error}}
+    </div>
+{% endfor %}
+
+<form class="add-form" action="/shared/add-item" method="post">
+    <span class="label">Item to add:</span>
+    <input type="text" name="item" autofocus>
+    <input type="submit" text="Add item">
+    {% csrf_token %}
+</form>
+
+<div class="sub-title"> Current todo list: </div>
+<ol>
+    {% for item in items %}
+        <li>
+            <form class="delete-form"
+                  action="/shared/delete-item/{{item.id}}"
+                  method="POST">
+                <input type="submit" value="X">
+                {% csrf_token %}
+            </form>
+            {{item.text}} (id={{item.id}}, ip_addr={{item.ip_addr}})
+        </li>
     {% endfor %}
-
-    <p>
-        Current todo list:
-        <ol>
-            {% for item in items %}
-                <li>
-                    <a href="/shared/delete-item/{{item.id}}">X</a>
-                    {{item.text}} (id={{item.id}}, ip_addr={{item.ip_addr}})
-                </li>
-            {% endfor %}
-        </ol>
-    </p>
-
-    <form action="/shared/add-item" method="post">
-        Item to add:
-        <input type="text" name="item">
-        <input type="submit" text="Add item">
-        {% csrf_token %}
-    </form>
+</ol>
 
 </body>
 </html>
-

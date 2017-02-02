@@ -38,12 +38,15 @@ def add_item(request):
 def delete_item(request, item_id):
     errors = []
 
-    # Deletes the item if present in the todo-list database.
-    try:
-        item_to_delete = Item.objects.get(id=item_id)
-        item_to_delete.delete()
-    except ObjectDoesNotExist:
-        errors.append('The item did not exist in the todo list.')
+    if request.method != 'POST':
+        errors.append('Deletes must be done using the POST method')
+    else:
+        # Deletes the item if present in the todo-list database.
+        try:
+            item_to_delete = Item.objects.get(id=item_id)
+            item_to_delete.delete()
+        except ObjectDoesNotExist:
+            errors.append('The item did not exist in the To Do List.')
 
     items = Item.objects.all()
     context = {'items': items, 'errors': errors}
