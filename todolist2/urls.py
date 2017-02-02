@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
-from shared import views
+from todolist2 import views
 
 urlpatterns = [
     url(r'^$', views.home),
@@ -8,7 +8,7 @@ urlpatterns = [
     # Parses number from URL and uses it as the item_id argument to the action
     url(r'^delete-item/(?P<item_id>\d+)$', views.delete_item),
     # Route for built-in authentication with our own custom login page
-    url(r'^login$', auth_views.login, {'template_name':'shared/login.html'}, name='login'),
+    url(r'^login$', auth_views.login, {'template_name':'todolist2/login.html'}, name='login'),
     # Route to logout a user and send them back to the login page
     url(r'^logout$', auth_views.logout_then_login),
     url(r'^register$', views.register),

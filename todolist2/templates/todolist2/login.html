@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/todolist2/todolist.css">
     <title>Shared Todo List #2 -- Login</title>
 </head>
 
@@ -25,7 +26,7 @@
         </table>
 
         <input type="submit" value="Login" />
-        <a href="/shared/register">Register</a>
+        <a href="/todolist2/register">Register</a>
         <input type="hidden" name="next" value="{{ next }}" />
         {% csrf_token %}
     </form>

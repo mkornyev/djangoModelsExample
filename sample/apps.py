@@ -3,5 +3,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class SharedConfig(AppConfig):
-    name = 'shared'
+class SampleConfig(AppConfig):
+    name = 'sample'

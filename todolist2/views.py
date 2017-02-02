@@ -12,10 +12,10 @@ from django.contrib.auth import login, authenticate
 from django.db import transaction
 
 # Imports the Item class
-from shared.models import *
+from todolist2.models import *
 
 
-# Action for the default shared-todo-list/ route.
+# Action for the default /todolist2/ route.
 @login_required
 def home(request):
     # Gets a list of all the items in the todo-list database.
@@ -25,10 +25,10 @@ def home(request):
     #               (2) the name of the view to generate, and
     #               (3) a dictionary of name-value pairs of data to be
     #                   available to the view.
-    return render(request, 'shared/index.html', {'items': all_items})
+    return render(request, 'todolist2/index.html', {'items': all_items})
 
 
-# Action for the shared-todo-list/add-item route.
+# Action for the /todolist2/add-item route.
 @login_required
 def add_item(request):
     errors = []  # A list to record messages for any errors we encounter.
@@ -45,10 +45,10 @@ def add_item(request):
     # Sets up data needed to generate the view, and generates the view
     items = Item.objects.all()
     context = {'items': items, 'errors': errors}
-    return render(request, 'shared/index.html', context)
+    return render(request, 'todolist2/index.html', context)
 
 
-# Action for the shared-todo-list/delete-item route.
+# Action for the /todolist2/delete-item route.
 @login_required
 def delete_item(request, item_id):
     errors = []
@@ -65,7 +65,7 @@ def delete_item(request, item_id):
 
     items = Item.objects.all()
     context = {'items': items, 'errors': errors}
-    return render(request, 'shared/index.html', context)
+    return render(request, 'todolist2/index.html', context)
 
 @transaction.atomic
 def register(request):
@@ -75,7 +75,7 @@ def register(request):
 
     # Just display the registration form if this is a GET request
     if request.method == 'GET':
-        return render(request, 'shared/register.html', context)
+        return render(request, 'todolist2/register.html', context)
 
     # Check the validity of the form data
     if not 'username' in request.POST or not request.POST['username']:
@@ -92,7 +92,7 @@ def register(request):
 
     if errors:
         # Required fields are missing.  Display errors, now.
-        return render(request, 'shared/register.html', context)
+        return render(request, 'todolist2/register.html', context)
 
     if request.POST['password1'] != request.POST['password2']:
         errors.append('Passwords did not match.')
@@ -102,7 +102,7 @@ def register(request):
 
     if errors:
         # Required fields are missing.  Display errors, now.
-        return render(request, 'shared/register.html', context)
+        return render(request, 'todolist2/register.html', context)
 
     # Creates the new user from the valid form data
     new_user = User.objects.create_user(username=request.POST['username'],
@@ -114,4 +114,4 @@ def register(request):
                             password=request.POST['password1'])
     
     login(request, new_user)
-    return redirect('/shared/')
+    return redirect('/todolist2/')

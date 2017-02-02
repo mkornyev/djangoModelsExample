@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/todolist2/todolist.css">
     <title>Shared Todo List #2 -- Register</title>
 </head>
 
@@ -12,22 +13,22 @@
         </p>
     {% endfor %}
 
-    <p>
-        Shared To Do List #2 Registraton Form
-    </p>
+    <div class="title">
+        Shared To Do List #2 Registration Form
+    </div>
 
-    <form method="post" action="/shared/register">
+    <form method="post" action="/todolist2/register">
         <table>
         <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username" value="{{username}}"></td>
+            <td><label>Username:</label></td>
+            <td><input type="text" name="username" value="{{username}}" autofocus></td>
         </tr>
         <tr>
-            <td>Password:</td>
+            <td><label>Password:</label></td>
             <td><input type="password" name="password1"></td>
         </tr>
         <tr>
-            <td>Confirm password:</td>
+            <td><label>Confirm password:<label></td>
             <td><input type="password" name="password2"></td>
         </tr>
         </table>

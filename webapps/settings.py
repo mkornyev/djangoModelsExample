@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shared',
+    'todolist2',
+    'sample',
 ]
 
 MIDDLEWARE = [
@@ -54,10 +55,10 @@ ROOT_URLCONF = 'webapps.urls'
 
 # Used by the authentication system for the private-todo-list application.
 # URL to use if the authentication system requires a user to log in.
-LOGIN_URL = '/shared/login'
+LOGIN_URL = '/todolist2/login'
 
 # Default URL to redirect to after a user logs in.
-LOGIN_REDIRECT_URL = '/shared/'
+LOGIN_REDIRECT_URL = '/todolist2/'
 
 TEMPLATES = [
     {

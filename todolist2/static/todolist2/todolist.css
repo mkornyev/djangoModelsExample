@@ -6,6 +6,10 @@ li {
     font-size: xx-large;
 }
 
+label {
+    font-size: x-large;
+}
+
 .title {
     font-size: xx-large;
     font-weight: bolder;
@@ -21,10 +25,6 @@ li {
 .error {
     font-size: x-large;
     color:red;
-}
-
-.label {
-    font-size: x-large;
 }
 
 .add-form {

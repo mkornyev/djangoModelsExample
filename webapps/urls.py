@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from todolist2 import views as todolist2_views
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    # url(r'^private/', include('private.urls')),
-    url(r'^shared/',  include('shared.urls')),
+    url(r'^$',  todolist2_views.home),
+    url(r'^todolist2/',  include('todolist2.urls')),
 ]

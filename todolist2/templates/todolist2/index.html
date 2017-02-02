@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/static/shared/todolist.css">
+    <link rel="stylesheet" href="/static/todolist2/todolist.css">
     <title>Shared To Do List #2</title>
 </head>
 
@@ -16,8 +16,8 @@
     </div>
 {% endfor %}
 
-<form class="add-form" action="/shared/add-item" method="post">
-    <span class="label">Item to add:</span>
+<form class="add-form" action="/todolist2/add-item" method="post">
+    <label>Item to add:</label>
     <input type="text" name="item" autofocus>
     <input type="submit" text="Add item">
     {% csrf_token %}
@@ -28,7 +28,7 @@
     {% for item in items %}
         <li>
             <form class="delete-form"
-                  action="/shared/delete-item/{{item.id}}"
+                  action="/todolist2/delete-item/{{item.id}}"
                   method="POST">
                 <input type="submit" value="X">
                 {% csrf_token %}
@@ -42,6 +42,8 @@
         </li>
     {% endfor %}
 </ol>
+
+<a href="/todolist2/logout">Logout</a>
 
 </body>
 </html>
