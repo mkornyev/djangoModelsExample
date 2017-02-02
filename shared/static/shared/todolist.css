@@ -35,3 +35,8 @@ li {
 .delete-form {
     display: inline;
 }
+
+.details {
+    font-size: large;
+    font-style: italic;
+}

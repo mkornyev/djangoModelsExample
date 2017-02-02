@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/shared/todolist.css">
-    <title>Shared To Do List #1</title>
+    <title>Shared To Do List #2</title>
 </head>
 
 <body>
 
-<div class="title">Shared To Do List #1</div>
+<div class="title">Shared To Do List #2</div>
 
 {% for error in errors %}
     <div class="error">
@@ -33,7 +33,12 @@
                 <input type="submit" value="X">
                 {% csrf_token %}
             </form>
-            {{item.text}} (id={{item.id}}, ip_addr={{item.ip_addr}})
+            {{item.text}}
+            <span class="details">
+                (id={{item.id}},
+                user={{item.user}},
+                ip_addr={{item.ip_addr}})
+            </span>
         </li>
     {% endfor %}
 </ol>

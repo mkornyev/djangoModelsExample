@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Shared Todo List #2 -- Register</title>
+</head>
+
+<body>
+    {% for error in errors %}
+        <p style="color: red">
+            {{ error }}
+        </p>
+    {% endfor %}
+
+    <p>
+        Shared To Do List #2 Registraton Form
+    </p>
+
+    <form method="post" action="/shared/register">
+        <table>
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" name="username" value="{{username}}"></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password1"></td>
+        </tr>
+        <tr>
+            <td>Confirm password:</td>
+            <td><input type="password" name="password2"></td>
+        </tr>
+        </table>
+
+        <input type="submit" value="Register" />
+        {% csrf_token %}
+    </form>
+
+</body>
+</html>
+
