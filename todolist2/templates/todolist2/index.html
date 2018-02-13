@@ -16,7 +16,7 @@
     </div>
 {% endfor %}
 
-<form class="add-form" action="/todolist2/add-item" method="post">
+<form class="add-form" action="{% url 'add-item' %}" method="post">
     <label>Item to add:</label>
     <input type="text" name="item" autofocus>
     <input type="submit" text="Add item">
@@ -28,7 +28,7 @@
     {% for item in items %}
         <li>
             <form class="delete-form"
-                  action="/todolist2/delete-item/{{item.id}}"
+                  action="{% url 'delete-item' item.id %}"
                   method="POST">
                 <input type="submit" value="X">
                 {% csrf_token %}
@@ -43,7 +43,9 @@
     {% endfor %}
 </ol>
 
-<a href="/todolist2/logout">Logout</a>
+<form action="{% url 'logout' %}" method="get">
+    <input type="submit" value="Logout">
+</form>
 
 </body>
 </html>

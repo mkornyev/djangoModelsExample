@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'welcome',
     'todolist2',
+    'addrbook2',
     'sample',
 ]
 
@@ -55,10 +57,10 @@ ROOT_URLCONF = 'webapps.urls'
 
 # Used by the authentication system for the private-todo-list application.
 # URL to use if the authentication system requires a user to log in.
-LOGIN_URL = '/todolist2/login'
+LOGIN_URL = '/welcome/login'
 
 # Default URL to redirect to after a user logs in.
-LOGIN_REDIRECT_URL = '/todolist2/'
+LOGIN_REDIRECT_URL = '/welcome/'
 
 TEMPLATES = [
     {
@@ -114,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Eastern'
 
 USE_I18N = True
 
