@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-import views
+from addrbook2 import views
 
 urlpatterns = [
     url(r'^$', views.search, name='home'),

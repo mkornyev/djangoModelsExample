@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.utils import timezone
 
-from models import Entry
-from forms import CreateForm, EditForm
+from addrbook2.models import Entry
+from addrbook2.forms import CreateForm, EditForm
 
 import time # for adding sleep calls to demonstrate concurrency issues
 

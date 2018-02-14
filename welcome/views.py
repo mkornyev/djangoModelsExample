@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate
 # Django transaction system so we can use @transaction.atomic
 from django.db import transaction
 
-from forms import RegistrationForm
+from welcome.forms import RegistrationForm
 
 # Create your views here.
 
