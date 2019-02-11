@@ -10,5 +10,8 @@ local_settings.py
 # Django's SQL Lite Database File
 db.sqlite3
 
+# Django generated migrations
+migrations/
+
 .DS_Store
 
