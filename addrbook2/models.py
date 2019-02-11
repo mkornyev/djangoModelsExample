@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -22,9 +19,9 @@ class Entry(models.Model):
     spouse_birth  = models.DateField(blank=True, null=True)
     spouse_cell   = models.CharField(blank=True, max_length=16)
     spouse_email  = models.CharField(blank=True, max_length=32)
-    created_by    = models.ForeignKey(User, related_name="entry_creators")
+    created_by    = models.ForeignKey(User, on_delete=models.PROTECT, related_name="entry_creators")
     creation_time = models.DateTimeField()
-    updated_by    = models.ForeignKey(User, related_name="entry_updators")
+    updated_by    = models.ForeignKey(User, on_delete=models.PROTECT, related_name="entry_updators")
     update_time   = models.DateTimeField()
 
     def __unicode__(self):

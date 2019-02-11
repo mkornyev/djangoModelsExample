@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.utils import timezone
@@ -10,7 +9,7 @@ from addrbook2.forms import CreateForm, EditForm
 import time # for adding sleep calls to demonstrate concurrency issues
 
 @login_required
-def search(request):
+def search_action(request):
     if not 'last' in request.GET:
         return render(request, 'addrbook2/search.html', {})
 
@@ -31,7 +30,7 @@ def search(request):
     return render(request, 'addrbook2/edit.html', context)
 
 @login_required
-def create(request):
+def create_action(request):
     if request.method == 'GET':
         context = { 'form': CreateForm() }
         return render(request, 'addrbook2/create.html', context)
@@ -52,7 +51,7 @@ def create(request):
     return render(request, 'addrbook2/edit.html', context)
 
 @login_required
-def delete(request, id):
+def delete_action(request, id):
     if request.method != 'POST':
         message = 'Invalid request.  POST method must be used.'
         return render(request, 'addrbook2/search.html', { 'message': message })
@@ -64,7 +63,7 @@ def delete(request, id):
 
 @login_required
 @transaction.atomic
-def edit(request, id):
+def edit_action(request, id):
     try:
         if request.method == 'GET':
             entry = Entry.objects.get(id=id)

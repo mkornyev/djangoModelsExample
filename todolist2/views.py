@@ -13,7 +13,7 @@ from todolist2.models import *
 
 # Action for the default /todolist2/ route.
 @login_required
-def home(request):
+def home_action(request):
     # Gets a list of all the items in the todo-list database.
     all_items = Item.objects.all()
 
@@ -26,7 +26,7 @@ def home(request):
 
 # Action for the /todolist2/add-item route.
 @login_required
-def add_item(request):
+def add_action(request):
     errors = []  # A list to record messages for any errors we encounter.
 
     # Adds the new item to the database if the request parameter is present
@@ -46,7 +46,7 @@ def add_item(request):
 
 # Action for the /todolist2/delete-item route.
 @login_required
-def delete_item(request, item_id):
+def delete_action(request, item_id):
     errors = []
 
     if request.method != 'POST':

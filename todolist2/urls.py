@@ -1,9 +1,8 @@
-from django.conf.urls import include, url
-from django.contrib.auth import views as auth_views
+from django.urls import path
 from todolist2 import views
 
 urlpatterns = [
-    url(r'^$', views.home),
-    url(r'^add-item$', views.add_item, name='add-item'),
-    url(r'^delete-item/(?P<item_id>\d+)$', views.delete_item, name='delete-item'),
+    path('', views.home_action),
+    path('add-item', views.add_action, name='add-item'),
+    path('delete-item/<int:item_id>', views.delete_action, name='delete-item'),
 ]

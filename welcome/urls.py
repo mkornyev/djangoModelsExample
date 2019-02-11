@@ -1,14 +1,11 @@
-from django.conf.urls import include, url
-from django.contrib.auth import views as auth_views
-from welcome import views as welcome_views
+from django.urls import path
+from welcome import views
 
 
 urlpatterns = [
-    url(r'^$', welcome_views.home, name='welcome'),
-    url(r'^register$', welcome_views.register, name='register'),
-    # Route for built-in authentication with our own custom login page
-    url(r'^login$', auth_views.login, {'template_name':'welcome/login.html'}, name='login'),
-    # Route to logout a user and send them back to the login page
-    url(r'^logout$', auth_views.logout_then_login, name='logout'),
+    path('', views.home_action, name='welcome'),
+    path('register', views.register_action, name='register'),
+    path('login', views.login_action, name='login'),
+    path('logout', views.logout_action, name='logout'),
 ]
 
