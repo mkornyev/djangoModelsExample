@@ -2,7 +2,7 @@
 
 {% block content %}
     {% for error in form.non_field_errors %}
-        <p style="color: red">
+        <p class="error">
             {{ error }}
         </p>
     {% endfor %}
@@ -36,11 +36,11 @@
             {{field}} {{field.errors}}
         {% endfor %}
         {% csrf_token %}
-        <input type="submit" value="Update">
+        <button type="submit">Update</button>
     </form>
 
     <form action="{% url 'delete' entry.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" value="Delete">
+        <button type="submit">Delete</button>
     </form>
 {% endblock %}

@@ -1,34 +1,38 @@
 {% extends "welcome/base.html" %}
 
+
 {% block user-info %}
-    <form action="{% url 'register' %}" method="get">
-        <input type="submit" value="Register">
-    </form>
+    <div>
+        <a href="{% url 'register' %}">
+            <button>Register</button>
+        </a>
+    </div>
 {% endblock %}
 
-{% block content %}    
-    {% if form.errors %}
-        <p style="color:red">
-            Incorrect user name and password.
-        </p>
-    {% endif %}
+
+{% block content %}
+    <p>Models Examples Login</p>
 
     <form method="post" action="{% url 'login' %}">
         <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
+            {% for field in form.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td class="error">
+                        {% for error in field.errors %} {{error}} {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
         </table>
-
-        <input type="submit" value="Login" />
-        <input type="hidden" name="next" value="{{ next }}" />
         {% csrf_token %}
+        <button type="submit">Login</button>
     </form>
 
+    {% for error in form.non_field_errors %}
+        <p class="error">
+            {{ error }}
+        </p>
+    {% endfor %}
 
 {% endblock %}
