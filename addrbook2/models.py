@@ -24,5 +24,5 @@ class Entry(models.Model):
     updated_by    = models.ForeignKey(User, on_delete=models.PROTECT, related_name="entry_updators")
     update_time   = models.DateTimeField()
 
-    def __unicode__(self):
+    def __str__(self):
         return 'Entry(id=' + str(self.id) + ')'
