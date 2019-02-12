@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 # Django transaction system so we can use @transaction.atomic
 from django.db import transaction
@@ -35,7 +35,7 @@ def login_action(request):
                             password=form.cleaned_data['password'])
 
     login(request, new_user)
-    return redirect(reverse('home'))
+    return redirect(reverse('welcome'))
 
 
 def logout_action(request):

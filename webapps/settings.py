@@ -60,7 +60,7 @@ ROOT_URLCONF = 'webapps.urls'
 LOGIN_URL = '/welcome/login'
 
 # Default URL to redirect to after a user logs in.
-LOGIN_REDIRECT_URL = '/welcome/'
+# LOGIN_REDIRECT_URL = '/welcome/'
 
 TEMPLATES = [
     {
