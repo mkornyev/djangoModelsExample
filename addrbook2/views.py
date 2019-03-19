@@ -32,18 +32,26 @@ def search_action(request):
 @login_required
 def create_action(request):
     if request.method == 'GET':
-        context = { 'form': CreateForm() }
+        c = CreateForm()
+        context = { 'form': c }
         return render(request, 'addrbook2/create.html', context)
 
-    entry = Entry(created_by=request.user, creation_time=timezone.now(),
-                  updated_by=request.user, update_time=timezone.now())
+    entry = Entry()
+
+    entry.created_by=request.user
+    entry.creation_time=timezone.now()
+    entry.updated_by=request.user
+    entry.update_time=timezone.now()
+
     create_form = CreateForm(request.POST, instance=entry)
     if not create_form.is_valid():
         context = { 'form': create_form }
         return render(request, 'addrbook2/create.html', context)
    
-    # Save the new record
+
+   
     create_form.save()
+
 
     message = 'Entry created'
     edit_form = EditForm(instance=entry)
