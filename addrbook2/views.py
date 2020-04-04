@@ -86,9 +86,13 @@ def edit_action(request, id):
             context = { 'entry': entry, 'form': form }
             return render(request, 'addrbook2/edit.html', context)
 
-        # if update times do not match, someone else updated DB record while were editing
+        # Cause things to slow down to demonstrate concurrent updates
+        if form.cleaned_data['country'] == 'Russia':
+            time.sleep(5)
+
+        # if update times do not match, someone else updated DB record while we were editing
         if db_update_time != form.cleaned_data['update_time']:
-            # refetch from DB and try again.
+            # Refetch entry from DB (because EditForm had modified it) and try again.
             entry = Entry.objects.get(id=id)
             form = EditForm(instance=entry)
             context = {
@@ -101,9 +105,10 @@ def edit_action(request, id):
         # Set update info to current time and user, and save it!
         entry.update_time = timezone.now()
         entry.updated_by  = request.user
-        form.save()
+        entry.save()
 
-        # form = EditForm(instance=entry)
+        # Create new EditForm so it contains new update_time.
+        form = EditForm(instance=entry)
         context = {
             'message': 'Entry updated.',
             'entry':   entry,
