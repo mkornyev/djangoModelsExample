@@ -21,14 +21,14 @@
             <tr>
                 <td>Created:</td>
                 <td colspan="2">
-                    {{entry.creation_time|date:"Y-m-d"}}
+                    {{entry.creation_time}}
                     (by {{entry.created_by.first_name}} {{entry.created_by.last_name}})
                 </td>
             </tr>
             <tr>
                 <td>Last Updated:</td>
                 <td colspan="2">
-                    {{entry.update_time}} (by user {{entry.updated_by}})
+                    {{entry.update_time|date:"Y-m-d @ H:i:s.u"}} (by user {{entry.updated_by}})
                 </td>
             </tr>
         </table>
