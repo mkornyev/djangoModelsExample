@@ -62,7 +62,7 @@ class RegistrationForm(forms.Form):
         # Confirms that the username is not already present in the
         # User model database.
         username = self.cleaned_data.get('username')
-        if User.objects.filter(username__exact=username):
+        if User.objects.select_for_update().filter(username__exact=username):
             raise forms.ValidationError("Username is already taken.")
 
         # We must return the cleaned data we got from the cleaned_data
