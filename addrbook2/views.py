@@ -86,8 +86,8 @@ def edit_action(request, id):
             context = { 'entry': entry, 'form': form }
             return render(request, 'addrbook2/edit.html', context)
 
-        # Cause things to slow down to demonstrate concurrent updates
-        if form.cleaned_data['country'] == 'Russia':
+        # Cause things to slow down to demonstrate concurrent updates if country contains 'zzz'
+        if form.cleaned_data['country'] and 'zzz' in form.cleaned_data['country'].lower():
             time.sleep(5)
 
         # if update times do not match, someone else updated DB record while we were editing
