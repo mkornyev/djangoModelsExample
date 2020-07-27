@@ -10,16 +10,29 @@
 
 <div class="title">Shared To Do List #2</div>
 
-{% for error in errors %}
+<div class="description">
+    This version of "To Do List" stores its data in a Django model, managed by the Django Object-Relation Manager (ORM).
+    By default the ORM is configured to store the data in a file called "db.sqlite3", but can be easily changed to
+    store the data in a relational (or non-relational) database server.
+</div>
+
+<div class="login-info">
+    You are logged in as
+    {{ request.user.first_name }}
+    {{ request.user.last_name }}
+    (username = {{ request.user.username }})
+</div>
+
+{% if error %}
     <div class="error">
         {{error}}
     </div>
-{% endfor %}
+{% endif %}
 
 <form class="add-form" action="{% url 'add-item' %}" method="post">
     <label>Item to add:</label>
     <input type="text" name="item" autofocus>
-    <input type="submit" text="Add item">
+    <input type="submit">
     {% csrf_token %}
 </form>
 
@@ -30,7 +43,11 @@
             <form class="delete-form"
                   action="{% url 'delete-item' item.id %}"
                   method="POST">
-                <input type="submit" value="X">
+                <input type="submit" value="X"
+                    {%  if request.user != item.user %}
+                        style="visibility: hidden"
+                    {%  endif %}
+                >
                 {% csrf_token %}
             </form>
             {{item.text}}

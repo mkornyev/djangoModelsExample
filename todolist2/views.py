@@ -4,9 +4,6 @@ from django.core.exceptions import ObjectDoesNotExist
 # Decorator to use built-in authentication system
 from django.contrib.auth.decorators import login_required
 
-# Django transaction system so we can use @transaction.atomic
-from django.db import transaction
-
 # Imports the Item class
 from todolist2.models import *
 
@@ -14,51 +11,52 @@ from todolist2.models import *
 # Action for the default /todolist2/ route.
 @login_required
 def home_action(request):
-    # Gets a list of all the items in the todo-list database.
-    all_items = Item.objects.all()
+    if not request.user.email.endswith("@andrew.cmu.edu"):
+        return render(request, 'todolist2/unauthorized.html')
 
-    # render takes: (1) the request,
-    #               (2) the name of the view to generate, and
-    #               (3) a dictionary of name-value pairs of data to be
-    #                   available to the view.
-    return render(request, 'todolist2/index.html', {'items': all_items})
+    return render(request, 'todolist2/index.html', {'items': Item.objects.all()})
 
 
 # Action for the /todolist2/add-item route.
 @login_required
 def add_action(request):
-    errors = []  # A list to record messages for any errors we encounter.
+    if not request.user.email.endswith("@andrew.cmu.edu"):
+        return render(request, 'todolist2/unauthorized.html')
+
+    # Set context with current list of items so we can easily return if we discover errors.
+    context = { 'items': Item.objects.all() }
 
     # Adds the new item to the database if the request parameter is present
     if 'item' not in request.POST or not request.POST['item']:
-        errors.append('You must enter an item to add.')
-    else:
-        new_item = Item(text=request.POST['item'],
-                        user=request.user,
-                        ip_addr=request.META['REMOTE_ADDR'])
-        new_item.save()
+        context['error'] = 'You must enter an item to add.'
+        return render(request, 'todolist2/index.html', context)
 
-    # Sets up data needed to generate the view, and generates the view
-    items = Item.objects.all()
-    context = {'items': items, 'errors': errors}
-    return render(request, 'todolist2/index.html', context)
+    new_item = Item(text=request.POST['item'], user=request.user, ip_addr=request.META['REMOTE_ADDR'])
+    new_item.save()
+    return redirect('todolist')
 
 
 # Action for the /todolist2/delete-item route.
 @login_required
 def delete_action(request, item_id):
-    errors = []
+    if not request.user.email.endswith("@andrew.cmu.edu"):
+        return render(request, 'todolist2/unauthorized.html')
+
+    context = { 'items': Item.objects.all() }
 
     if request.method != 'POST':
-        errors.append('Deletes must be done using the POST method')
-    else:
-        # Deletes the item if present in the todo-list database.
-        try:
-            item_to_delete = Item.objects.get(id=item_id)
-            item_to_delete.delete()
-        except ObjectDoesNotExist:
-            errors.append('The item did not exist in the To Do List.')
+        context['error'] = 'Deletes must be done using the POST method'
+        return render(request, 'todolist2/index.html', context)
 
-    items = Item.objects.all()
-    context = {'items': items, 'errors': errors}
-    return render(request, 'todolist2/index.html', context)
+    # Deletes the item if present in the todo-list database.
+    try:
+        item_to_delete = Item.objects.get(id=item_id)
+        if request.user.username != item_to_delete.user.username:
+            context['error'] = 'You can only delete items you have created.'
+            return render(request, 'todolist2/index.html', context)
+
+        item_to_delete.delete()
+        return redirect('todolist')
+    except ObjectDoesNotExist:
+        context['error'] = 'The item did not exist in the To Do List.'
+        return render(request, 'todolist2/index.html', context)
